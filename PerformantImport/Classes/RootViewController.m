@@ -58,7 +58,7 @@
   [[self navigationItem] setRightBarButtonItem:addButton];
   [addButton release], addButton = nil;
   
-  UIBarButtonItem *removeButton = [[UIBarButtonItem alloc] initWithTitle:@"Reset" style:UIBarButtonItemStyleDone target:self action:@selector(aaaTapped2:)];
+    UIBarButtonItem *removeButton = [[UIBarButtonItem alloc] initWithTitle:@"Reset" style:UIBarButtonItemStyleDone target:self action:@selector(aaaTapped2:)];
   [[self navigationItem] setLeftBarButtonItem:removeButton];
   [removeButton release], removeButton = nil;
   
@@ -69,19 +69,93 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contextChanged:) name:NSManagedObjectContextDidSaveNotification object:nil];
 }
 
+///// test 1  begin
+//  Runloop可以阻塞线程，等待其他线程执行后再执行
+/*
+ 2014-07-25 12:02:07.694 PerformantImport[6918:607] Start a new thread.
+ 2014-07-25 12:02:07.697 PerformantImport[6918:607] Beginrunloop
+ 2014-07-25 12:02:07.697 PerformantImport[6918:312b] Enter newThreadProc.
+ 2014-07-25 12:02:07.698 PerformantImport[6918:312b] InnewThreadProc count = 0.
+ 2014-07-25 12:02:08.701 PerformantImport[6918:312b] InnewThreadProc count = 1.
+ 2014-07-25 12:02:09.707 PerformantImport[6918:312b] InnewThreadProc count = 2.
+ 2014-07-25 12:02:10.712 PerformantImport[6918:312b] InnewThreadProc count = 3.
+ 2014-07-25 12:02:11.718 PerformantImport[6918:312b] InnewThreadProc count = 4.
+ 2014-07-25 12:02:12.721 PerformantImport[6918:312b] InnewThreadProc count = 5.
+ 2014-07-25 12:02:13.727 PerformantImport[6918:312b] InnewThreadProc count = 6.
+ 2014-07-25 12:02:14.729 PerformantImport[6918:312b] InnewThreadProc count = 7.
+ 2014-07-25 12:02:15.733 PerformantImport[6918:312b] InnewThreadProc count = 8.
+ 2014-07-25 12:02:16.739 PerformantImport[6918:312b] InnewThreadProc count = 9.
+ 2014-07-25 12:02:17.745 PerformantImport[6918:312b] Exit newThreadProc.
+  发生了触摸时间 点击了屏幕 才会输出一下的两句
+ 2014-07-25 12:02:28.178 PerformantImport[6918:607] Endrunloop.
+ 2014-07-25 12:02:28.178 PerformantImport[6918:607] OK
 
-BOOL threadProcess2Finished =NO;
-- (IBAction) aaaTapped2:(id)sender
+ 他人评论：
+ 从调试打印信息可以看到，while循环后执行的语句会在很长时间后才被执行。因为，改变变量StopFlag的值，runloop对象根本不知道，runloop在这个时候未被唤醒。有其他事件在某个时点唤醒了主线程，这才结束了while循环，但延缓的时长总是不定的。。
+ 
+ 将代码稍微修改一下：
+ 
+ [[NSRunLoopcurrentRunLoop] runMode:NSDefaultRunLoopMode
+ 
+ beforeDate: [NSDatedateWithTimeIntervalSinceNow: 1]];
+ 
+ 缩短runloop的休眠时间，看起来解决了上面出现的问题。
+ 
+ 但这样会导致runloop被经常性的唤醒，违背了runloop的设计初衷。runloop的目的就死让你的线程在有工作的时候忙于工作，而没工作的时候处于休眠状态。
+ 
+ http://blog.csdn.net/jjunjoe/article/details/8313016
+ */
+BOOL StopFlag =NO;
+
+
+- (void)startOtherTest
+
 {
-    NSLog(@"Enter buttonRunloopPressed");
-    
-    threadProcess2Finished =NO;
+    StopFlag =NO;
     
     NSLog(@"Start a new thread.");
     
-    [NSThread detachNewThreadSelector: @selector(threadProce2)
-                             toTarget: self
-                           withObject: nil];
+    [NSThread detachNewThreadSelector: @selector(newThreadProc)
+     
+                            toTarget:self
+     
+                          withObject: nil];
+    
+    while (!StopFlag) {
+        
+        NSLog(@"Beginrunloop");
+        
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+         
+                                beforeDate: [NSDate distantFuture]];
+        
+        NSLog(@"Endrunloop.");// 在没有其他的输入源 (如，用户触摸事件，或者其他的输入源)的情况下 该句是不执行的
+        
+    }
+    NSLog(@"OK");//同上
+    
+}
+
+-(void)newThreadProc{
+    
+    NSLog(@"Enter newThreadProc.");
+
+    for (int i=0; i<10; i++) {
+        
+        NSLog(@"InnewThreadProc count = %d.", i);
+        
+        sleep(1);
+    }
+    
+    StopFlag =YES;
+    
+    NSLog(@"Exit newThreadProc.");
+    
+}
+//// test 1  end
+
+
+
     //阻塞了主线程但是并没有阻塞UI，是因为 Mode的原因？？
       //   http://www.cnblogs.com/xwang/p/3547685.html
     /*
@@ -111,33 +185,7 @@ BOOL threadProcess2Finished =NO;
      
      说到这里，在http异步通信的模块中也有可能碰到这样的问题，就是在向服务器异步获取图片数据通知主线程刷新tableView中的图片时，在tableView滚动没有停止或用户手指停留在屏幕上的时候，图片一直不会出来，可能背后也是这个runloop的mode在做怪，嘿嘿。
      */
-    while (!threadProcess2Finished) {
-        
-        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
-         
-                                 beforeDate: [NSDate distantFuture]];
-        
-    }
-    
-    NSLog(@"Exit buttonRunloopPressed");
-}
 
--(void)threadProce2{
-    
-    NSLog(@"Enter threadProce2.");
-    
-    for (int i=0; i<5;i++) {
-        
-        NSLog(@"InthreadProce2 count = %d.", i);
-        
-        sleep(1);
-    }
-    
-    threadProcess2Finished =YES;
-    
-    NSLog(@"Exit threadProce2.");
-    
-}
 - (void)contextChanged:(NSNotification*)notification
 {
     

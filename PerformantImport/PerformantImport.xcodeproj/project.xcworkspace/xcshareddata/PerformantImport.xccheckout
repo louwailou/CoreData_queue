@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>92214D6A-B383-4395-BD78-FF771BC56E2F</string>
+	<key>IDESourceControlProjectName</key>
+	<string>PerformantImport</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>27E2AB13-9596-4A82-9D2C-7AC75A4B9637</key>
+		<string>https://github.com/louwailou/CoreData_queue.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>PerformantImport/PerformantImport.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>27E2AB13-9596-4A82-9D2C-7AC75A4B9637</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/louwailou/CoreData_queue.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>27E2AB13-9596-4A82-9D2C-7AC75A4B9637</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>27E2AB13-9596-4A82-9D2C-7AC75A4B9637</string>
+			<key>IDESourceControlWCCName</key>
+			<string>CoreData_queue</string>
+		</dict>
+	</array>
+</dict>
+</plist>
