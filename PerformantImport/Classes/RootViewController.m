@@ -154,8 +154,6 @@ BOOL StopFlag =NO;
 }
 //// test 1  end
 
-
-
     //阻塞了主线程但是并没有阻塞UI，是因为 Mode的原因？？
       //   http://www.cnblogs.com/xwang/p/3547685.html
     /*
