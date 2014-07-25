@@ -60,67 +60,7 @@
   [[NSRunLoop currentRunLoop] addPort:[NSPort port] forMode:NSRunLoopCommonModes];
  
     
-    /*  
-      注销上述语句后的结果  defaultMode
-     
-     currentRunloop =<CFRunLoop 0x8f38580 [0x2116ec8]>{wakeup port = 0x4203, stopped = false, ignoreWakeUps = true,
-     current mode = (none),
-     common modes = <CFBasicHash 0x8f37c10 [0x2116ec8]>{type = mutable set, count = 1,
-     entries =>
-     1 : <CFString 0x21130a4 [0x2116ec8]>{contents = "kCFRunLoopDefaultMode"}
-     }
-     ,
-     common mode items = (null),
-     modes = <CFBasicHash 0x8f01b40 [0x2116ec8]>{type = mutable set, count = 1,
-     entries =>
-     1 : <CFRunLoopMode 0x8f38650 [0x2116ec8]>{name = kCFRunLoopDefaultMode, port set = 0x4403, timer port = 0x4503,
-     sources0 = (null),
-     sources1 = (null),
-     observers = (null),
-     timers = (null),
-     currently 427966240 (44691443444570) / soft deadline in: 1.84466994e+10 sec (@ 0) / hard deadline in: 1.84466994e+10 sec (@ 0)
-     },
-     
-     }
-     }
-
-     
-     
-     // 不住消的结果
-     
-     currentRunloop =<CFRunLoop 0x8e5a640 [0x2116ec8]>{wakeup port = 0x3b07, stopped = false, ignoreWakeUps = true,
-     current mode = (none),
-     common modes = <CFBasicHash 0x8e46670 [0x2116ec8]>{type = mutable set, count = 1,
-     entries =>
-     1 : <CFString 0x21130a4 [0x2116ec8]>{contents = "kCFRunLoopDefaultMode"}
-     }
-     ,
-     common mode items = <CFBasicHash 0x8d44c10 [0x2116ec8]>{type = mutable set, count = 1,
-     entries =>
-     1 : <CFRunLoopSource 0x8d3c110 [0x2116ec8]>{signalled = No, valid = Yes, order = 200, context = <CFMachPort 0xaa33590 [0x2116ec8]>{valid = Yes, port = 3d03, source = 0x8d3c110, callout = __NSFireMachPort (0xaa008), context = <CFMachPort context 0xaa339d0>}}
-     }
-     ,
-     modes = <CFBasicHash 0x8e25cf0 [0x2116ec8]>{type = mutable set, count = 1,
-     entries =>
-     1 : <CFRunLoopMode 0x8e08740 [0x2116ec8]>{name = kCFRunLoopDefaultMode, port set = 0x3a07, timer port = 0x3c03,
-     sources0 = <CFBasicHash 0x8d3bf80 [0x2116ec8]>{type = mutable set, count = 0,
-     entries =>
-     }
-     ,
-     sources1 = <CFBasicHash 0x8d0a7d0 [0x2116ec8]>{type = mutable set, count = 1,
-     entries =>
-     1 : <CFRunLoopSource 0x8d3c110 [0x2116ec8]>{signalled = No, valid = Yes, order = 200, context = <CFMachPort 0xaa33590 [0x2116ec8]>{valid = Yes, port = 3d03, source = 0x8d3c110, callout = __NSFireMachPort (0xaa008), context = <CFMachPort context 0xaa339d0>}}
-     }
-     ,
-     observers = (null),
-     timers = (null),
-     currently 427966427 (44878277930165) / soft deadline in: 1.84466992e+10 sec (@ 0) / hard deadline in: 1.84466992e+10 sec (@ 0)
-     },
-     
-     }
-     }
-
-     */
+    
     NSManagedObjectContext *moc = [[NSManagedObjectContext alloc] init];
   [moc setPersistentStoreCoordinator:[self persistentStoreCoordinator]];
   
