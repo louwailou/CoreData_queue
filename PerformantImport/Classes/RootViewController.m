@@ -58,7 +58,7 @@
   [[self navigationItem] setRightBarButtonItem:addButton];
   [addButton release], addButton = nil;
   
-    UIBarButtonItem *removeButton = [[UIBarButtonItem alloc] initWithTitle:@"Reset" style:UIBarButtonItemStyleDone target:self action:@selector(aaaTapped2:)];
+    UIBarButtonItem *removeButton = [[UIBarButtonItem alloc] initWithTitle:@"Reset" style:UIBarButtonItemStyleDone target:self action:@selector(resetMOC:)];
   [[self navigationItem] setLeftBarButtonItem:removeButton];
   [removeButton release], removeButton = nil;
   
@@ -187,16 +187,16 @@ BOOL StopFlag =NO;
 - (void)contextChanged:(NSNotification*)notification
 {
     
-    NSLog(@" notification Object＝%@",[notification object]);
-    NSManagedObjectContext* context=(NSManagedObjectContext*)[notification object];
-    NSLog(@" insertObject＝%@",[context insertedObjects]);
-    NSLog(@" updateObject＝%@",[context updatedObjects]);
-    NSLog(@" deleteObject＝%@",[context deletedObjects]);
-    
-    
-     NSLog(@" 22deleteObject＝%@",[self.managedObjectContext deletedObjects]);
-    NSLog(@"222updateObject＝%@",[self.managedObjectContext updatedObjects]);
-    NSLog(@"222 insertObject＝%@",[self.managedObjectContext insertedObjects]);
+//    NSLog(@" notification Object＝%@",[notification object]);
+//    NSManagedObjectContext* context=(NSManagedObjectContext*)[notification object];
+//    NSLog(@" insertObject＝%@",[context insertedObjects]);
+//    NSLog(@" updateObject＝%@",[context updatedObjects]);
+//    NSLog(@" deleteObject＝%@",[context deletedObjects]);
+//    
+//    
+//     NSLog(@" 22deleteObject＝%@",[self.managedObjectContext deletedObjects]);
+//    NSLog(@"222updateObject＝%@",[self.managedObjectContext updatedObjects]);
+//    NSLog(@"222 insertObject＝%@",[self.managedObjectContext insertedObjects]);
   if ([notification object] == [self managedObjectContext]) return;
 
   if (![NSThread isMainThread]) {
@@ -218,23 +218,23 @@ BOOL StopFlag =NO;
   
   ZSImportOperation *op = [[ZSImportOperation alloc] init];
   [op setPersistentStoreCoordinator:[[self managedObjectContext] persistentStoreCoordinator]];
-  [op setRunSpeed:0.25];
-  [op setEntriesToCreate:1000];
+  [op setRunSpeed:5];
+  [op setEntriesToCreate:10];
   [op setSaveFrequency:10];
   
   [operationQueue addOperation:op];
   [op release], op = nil;
     
-    
-    //使用queue来保证
-    ZSImportOperation *op2 = [[ZSImportOperation alloc] init];
-    [op2 setPersistentStoreCoordinator:[[self managedObjectContext] persistentStoreCoordinator]];
-    [op2 setRunSpeed:0.25];
-    [op2 setEntriesToCreate:1000];
-    [op2 setSaveFrequency:10];
-    
-    [operationQueue addOperation:op2];
-    [op2 release], op2 = nil;
+//    
+//    //使用queue来保证
+//    ZSImportOperation *op2 = [[ZSImportOperation alloc] init];
+//    [op2 setPersistentStoreCoordinator:[[self managedObjectContext] persistentStoreCoordinator]];
+//    [op2 setRunSpeed:3];
+//    [op2 setEntriesToCreate:1000];
+//    [op2 setSaveFrequency:10];
+//    
+//    [operationQueue addOperation:op2];
+//    [op2 release], op2 = nil;
 
 }
 
